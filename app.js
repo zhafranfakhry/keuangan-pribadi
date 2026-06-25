@@ -266,6 +266,187 @@ function registerEvents() {
 }
 
 /* ==================================================
+   CHART
+================================================== */
+
+function renderChart(data) {
+
+    const monthly = {};
+
+    data.forEach(item => {
+
+        const month =
+            item.tanggal.substring(0,7);
+
+        if(!monthly[month]) {
+
+            monthly[month] = {
+                income: 0,
+                expense: 0
+            };
+
+        }
+
+        const amount =
+            Number(item.nominal);
+
+        if(item.jenis === "masuk") {
+
+            monthly[month].income += amount;
+
+        }
+
+        if(item.jenis === "keluar") {
+
+            monthly[month].expense += amount;
+
+        }
+
+    });
+
+    const labels =
+        Object.keys(monthly);
+
+    const income =
+        labels.map(
+            month => monthly[month].income
+        );
+
+    const expense =
+        labels.map(
+            month => monthly[month].expense
+        );
+
+    new Chart(
+
+        document
+            .getElementById("monthly-chart"),
+
+        {
+
+            type: "bar",
+
+            data: {
+
+                labels,
+
+                datasets: [
+
+                    {
+                        label: "Pemasukan",
+                        data: income
+                    },
+
+                    {
+                        label: "Pengeluaran",
+                        data: expense
+                    }
+
+                ]
+
+            }
+
+        }
+
+    );
+
+}
+
+/* ==================================================
+   TOP INCOME
+================================================== */
+
+function renderTopIncome(data) {
+
+    const container =
+        document.getElementById("top-income");
+
+    const incomeData =
+        data
+            .filter(item =>
+                item.jenis === "masuk"
+            )
+            .sort(
+                (a,b)=>
+                Number(b.nominal) -
+                Number(a.nominal)
+            )
+            .slice(0,3);
+
+    container.innerHTML = "";
+
+    incomeData.forEach(item => {
+
+        container.innerHTML += `
+            <div class="top-item">
+
+                <span>
+                    ${item.kategori}
+                </span>
+
+                <strong>
+                    ${formatRupiah(
+                        Number(item.nominal)
+                    )}
+                </strong>
+
+            </div>
+        `;
+
+    });
+
+}
+/* ==================================================
+   TOP EXPENSE
+================================================== */
+
+function renderTopExpense(data) {
+
+    const container =
+        document.getElementById("top-expense");
+
+    const expenseData =
+        data
+            .filter(item =>
+                item.jenis === "keluar"
+            )
+            .filter(item =>
+                item.kategori !== "nafkah istri"
+            )
+            .sort(
+                (a,b)=>
+                Number(b.nominal) -
+                Number(a.nominal)
+            )
+            .slice(0,3);
+
+    container.innerHTML = "";
+
+    expenseData.forEach(item => {
+
+        container.innerHTML += `
+            <div class="top-item">
+
+                <span>
+                    ${item.kategori}
+                </span>
+
+                <strong>
+                    ${formatRupiah(
+                        Number(item.nominal)
+                    )}
+                </strong>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+
+/* ==================================================
    INIT
 ================================================== */
 
@@ -284,6 +465,11 @@ async function init() {
     renderTransactions(allTransactions);
 
     registerEvents();
+   renderChart(allTransactions);
+
+renderTopIncome(allTransactions);
+
+renderTopExpense(allTransactions);
 
 }
 
