@@ -210,4 +210,29 @@ footer {
     margin-top: 32px;
 
 }
+/* ==================================================
+   STATISTICS
+================================================== */
 
+.statistics {
+
+    margin-top: 32px;
+
+}
+
+
+
+/* ==================================================
+   STATISTICS GRID
+================================================== */
+
+.statistics-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit,minmax(250px,1fr));
+
+    gap: 20px;
+
+}
