@@ -443,7 +443,196 @@ function renderTopExpense(data) {
     });
 
 }
+/* ==================================================
+   STATISTICS
+================================================== */
 
+function renderStatistics(data) {
+
+    const expenses =
+        data.filter(item =>
+            item.jenis === "keluar"
+        );
+
+    const expensesNoWife =
+        expenses.filter(item =>
+            item.kategori !== "nafkah istri"
+        );
+
+
+    /* ----------------------------------
+       Hari Paling Boros
+    ---------------------------------- */
+
+    const dailyTotals = {};
+
+    expensesNoWife.forEach(item => {
+
+        const date =
+            item.tanggal;
+
+        if(!dailyTotals[date]) {
+
+            dailyTotals[date] = 0;
+
+        }
+
+        dailyTotals[date] +=
+            Number(item.nominal);
+
+    });
+
+    let mostExpensiveDay = "-";
+    let highestExpense = 0;
+
+    Object.entries(dailyTotals)
+        .forEach(([date,total]) => {
+
+            if(total > highestExpense){
+
+                highestExpense = total;
+
+                mostExpensiveDay =
+                    date;
+
+            }
+
+        });
+
+    document
+        .getElementById("most-expensive-day")
+        .textContent =
+        mostExpensiveDay;
+
+
+    /* ----------------------------------
+       Kategori Terboros
+    ---------------------------------- */
+
+    const categoryTotals = {};
+
+    expensesNoWife.forEach(item => {
+
+        if(!categoryTotals[item.kategori]) {
+
+            categoryTotals[item.kategori] = 0;
+
+        }
+
+        categoryTotals[item.kategori] +=
+            Number(item.nominal);
+
+    });
+
+    let topCategory = "-";
+    let categoryValue = 0;
+
+    Object.entries(categoryTotals)
+        .forEach(([category,total]) => {
+
+            if(total > categoryValue){
+
+                categoryValue = total;
+
+                topCategory = category;
+
+            }
+
+        });
+
+    document
+        .getElementById("top-category")
+        .textContent =
+        topCategory;
+
+
+    /* ----------------------------------
+       Average Daily Expense
+    ---------------------------------- */
+
+    const totalExpense =
+        expensesNoWife.reduce(
+            (sum,item)=>
+            sum + Number(item.nominal),
+            0
+        );
+
+    const totalDays =
+        Object.keys(dailyTotals).length;
+
+    const average =
+        totalDays
+            ? totalExpense / totalDays
+            : 0;
+
+    document
+        .getElementById("daily-average")
+        .textContent =
+        formatRupiah(average);
+
+
+    /* ----------------------------------
+       Saving Rate
+    ---------------------------------- */
+
+    const income =
+        data
+        .filter(item =>
+            item.jenis === "masuk"
+        )
+        .reduce(
+            (sum,item)=>
+            sum + Number(item.nominal),
+            0
+        );
+
+    const expense =
+        expenses.reduce(
+            (sum,item)=>
+            sum + Number(item.nominal),
+            0
+        );
+
+    const savingRate =
+        income
+        ? ((income-expense)/income)*100
+        : 0;
+
+    document
+        .getElementById("saving-rate")
+        .textContent =
+        `${savingRate.toFixed(1)}%`;
+
+
+    /* ----------------------------------
+       Monthly Prediction
+    ---------------------------------- */
+
+    const now =
+        new Date();
+
+    const currentDay =
+        now.getDate();
+
+    const daysInMonth =
+        new Date(
+            now.getFullYear(),
+            now.getMonth()+1,
+            0
+        ).getDate();
+
+    const prediction =
+        currentDay
+        ? (expense/currentDay)
+            * daysInMonth
+        : 0;
+
+    document
+        .getElementById("monthly-prediction")
+        .textContent =
+        formatRupiah(prediction);
+
+}
 
 
 /* ==================================================
@@ -470,6 +659,7 @@ async function init() {
 renderTopIncome(allTransactions);
 
 renderTopExpense(allTransactions);
+   renderStatistics(allTransactions);
 
 }
 
