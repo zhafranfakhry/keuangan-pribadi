@@ -220,7 +220,50 @@ footer {
 
 }
 
+/* ==================================================
+   CATEGORY SUMMARY
+================================================== */
 
+.category-summary {
+
+    margin-top: 32px;
+
+}
+
+.category-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: white;
+
+    padding: 16px;
+
+    margin-bottom: 12px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.05);
+
+}
+
+
+.category-name {
+
+    font-weight: 600;
+
+}
+
+
+.category-value {
+
+    font-weight: 700;
+
+}
 
 /* ==================================================
    STATISTICS GRID
