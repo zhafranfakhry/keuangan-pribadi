@@ -1,0 +1,73 @@
+/* ==========================================
+   FILTERS
+========================================== */
+
+.filters {
+
+    display: grid;
+
+    gap: 12px;
+
+    margin-top: 24px;
+
+    margin-bottom: 24px;
+
+}
+
+.filters select {
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+
+}
+
+
+
+/* ==========================================
+   TRANSACTION
+========================================== */
+
+.transaction {
+
+    background: white;
+
+    padding: 16px;
+
+    border-radius: 12px;
+
+    margin-bottom: 12px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+
+}
+
+.transaction-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+}
+
+.transaction-category {
+
+    font-weight: bold;
+
+}
+
+.transaction-amount {
+
+    font-weight: bold;
+
+}
+
+.transaction-date {
+
+    font-size: 12px;
+
+    color: gray;
+
+}
