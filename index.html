@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expense Tracker Ainur</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+
+<header class="header">
+<h1>Halo Ainur 👋</h1>
+<p>Seberapa boros hari ini?</p>
+</header>
+
+<section class="summary">
+<div class="card"><span>Total Pemasukan</span><p id="income" class="income">Rp 0</p></div>
+<div class="card"><span>Total Pengeluaran</span><p id="expense" class="expense">Rp 0</p></div>
+<div class="card"><span>Sisa Saldo</span><p id="balance" class="balance">Rp 0</p></div>
+</section>
+
+<section class="card">
+<h2>Grafik Pemasukan vs Pengeluaran</h2>
+<canvas id="monthlyChart"></canvas>
+</section>
+
+<section class="card">
+<h2>Ringkasan Kategori</h2>
+<div id="category-summary"></div>
+</section>
+
+<section class="filters">
+<select id="monthFilter"><option value="">Semua Bulan</option></select>
+<select id="categoryFilter"><option value="">Semua Kategori</option></select>
+</section>
+
+<section class="card">
+<h2>Transaksi</h2>
+<div id="transaction-list"></div>
+</section>
+
+<footer>
+<p id="last-sync">Last Sync: -</p>
+</footer>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
