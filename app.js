@@ -9,6 +9,7 @@ const API_URL =
    DATA GLOBAL
 ================================================== */
 let allTransactions = [];
+let monthlyChart = null;
 
 /* ==================================================
    HELPER
@@ -241,7 +242,31 @@ function applyFilters() {
 
     }
 
-    renderTransactions(filtered);
+    renderDashboard(filtered);
+
+}
+/* ==================================================
+   DASHBOARD RENDERER
+================================================== */
+
+function renderDashboard(data) {
+
+    const summary =
+        calculateSummary(data);
+
+    renderSummary(summary);
+
+    renderTransactions(data);
+
+    renderChart(data);
+
+    renderTopIncome(data);
+
+    renderTopExpense(data);
+
+    renderStatistics(data);
+   
+   renderLastSync(data);
 
 }
 
@@ -271,7 +296,12 @@ function registerEvents() {
 
 function renderChart(data) {
 
-    const monthly = {};
+   if(monthlyChart){
+
+    monthlyChart.destroy();
+
+} 
+   const monthly = {};
 
     data.forEach(item => {
 
@@ -317,7 +347,7 @@ function renderChart(data) {
             month => monthly[month].expense
         );
 
-    new Chart(
+    monthlyChart = new Chart(
 
         document
             .getElementById("monthly-chart"),
@@ -633,34 +663,37 @@ function renderStatistics(data) {
         formatRupiah(prediction);
 
 }
+/* ==================================================
+   LAST SYNC
+================================================== */
 
+function renderLastSync(data){
+
+    const latest =
+        [...data]
+        .sort(
+            (a,b)=>
+            new Date(b.tanggal) -
+            new Date(a.tanggal)
+        )[0];
+
+    document
+        .getElementById("last-sync")
+        .textContent =
+        `Data terakhir: ${latest.tanggal}`;
+
+}
 
 /* ==================================================
    INIT
 ================================================== */
+populateFilters(allTransactions);
 
-async function init() {
+renderDashboard(allTransactions);
 
-    allTransactions =
-        await getTransactions();
+registerEvents();
 
-    const summary =
-        calculateSummary(allTransactions);
-
-    renderSummary(summary);
-
-    populateFilters(allTransactions);
-
-    renderTransactions(allTransactions);
-
-    registerEvents();
-   renderChart(allTransactions);
-
-renderTopIncome(allTransactions);
-
-renderTopExpense(allTransactions);
-   renderStatistics(allTransactions);
-
+  
 }
 
 init();
