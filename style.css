@@ -1,0 +1,27 @@
+
+:root{
+--bg:#f8fafc;
+--card:#fff;
+--text:#0f172a;
+--border:#e2e8f0;
+--income:#22c55e;
+--expense:#ef4444;
+--primary:#2563eb;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:var(--bg);padding:24px;color:var(--text)}
+.container{max-width:1200px;margin:auto}
+.header{margin-bottom:24px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:var(--card);padding:20px;border:1px solid var(--border);border-radius:16px;margin-bottom:24px}
+.income{color:var(--income)}
+.expense{color:var(--expense)}
+.balance{color:var(--primary)}
+.summary p{font-size:2rem;font-weight:bold;margin-top:10px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+select{padding:12px;border-radius:10px;border:1px solid var(--border)}
+.transaction{padding:12px;border-bottom:1px solid #eee}
+.transaction-top{display:flex;justify-content:space-between}
+#category-summary div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+footer{text-align:center;color:#64748b;padding:20px}
