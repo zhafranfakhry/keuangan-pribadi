@@ -270,6 +270,8 @@ function renderDashboard(data) {
    
    renderLastSync(data);
    
+   renderSavingGoal(data);
+   
 
 
 }
@@ -724,6 +726,67 @@ function renderStatistics(data) {
         formatRupiah(prediction);
 
 }
+
+/* ==================================================
+   SAVING GOAL
+================================================== */
+
+const MONTHLY_SAVING_TARGET =
+    2000000;
+
+function renderSavingGoal(data){
+
+    const income =
+        data
+        .filter(item =>
+            item.jenis === "masuk"
+        )
+        .reduce(
+            (sum,item)=>
+            sum + Number(item.nominal),
+            0
+        );
+
+    const expense =
+        data
+        .filter(item =>
+            item.jenis === "keluar"
+        )
+        .reduce(
+            (sum,item)=>
+            sum + Number(item.nominal),
+            0
+        );
+
+    const saving =
+        income - expense;
+
+    const percentage =
+        Math.max(
+            0,
+            (saving /
+            MONTHLY_SAVING_TARGET)
+            * 100
+        );
+
+    document
+        .getElementById(
+            "saving-goal-value"
+        )
+        .textContent =
+        `${percentage.toFixed(1)}%`;
+
+    document
+        .getElementById(
+            "saving-progress"
+        )
+        .style.width =
+        `${Math.min(
+            percentage,
+            100
+        )}%`;
+}
+
 /* ==================================================
    LAST SYNC
 ================================================== */
