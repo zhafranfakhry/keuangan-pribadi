@@ -266,10 +266,71 @@ function renderDashboard(data) {
 
     renderStatistics(data);
    
+   renderCategorySummary(data);
+   
    renderLastSync(data);
+   
+
 
 }
 
+/* ==================================================
+   CATEGORY SUMMARY
+================================================== */
+
+function renderCategorySummary(data) {
+
+    const container =
+        document.getElementById(
+            "category-summary"
+        );
+
+    const categories = {};
+
+    data
+        .filter(item =>
+            item.jenis === "keluar"
+        )
+        .forEach(item => {
+
+            if(!categories[item.kategori]) {
+
+                categories[item.kategori] = 0;
+
+            }
+
+            categories[item.kategori] +=
+                Number(item.nominal);
+
+        });
+
+    const sorted =
+        Object.entries(categories)
+        .sort(
+            (a,b) => b[1] - a[1]
+        );
+
+    container.innerHTML = "";
+
+    sorted.forEach(([name,value]) => {
+
+        container.innerHTML += `
+            <div class="category-item">
+
+                <span class="category-name">
+                    ${name}
+                </span>
+
+                <span class="category-value">
+                    ${formatRupiah(value)}
+                </span>
+
+            </div>
+        `;
+
+    });
+
+}
 /* ==================================================
    EVENTS
 ================================================== */
