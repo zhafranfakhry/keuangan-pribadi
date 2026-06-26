@@ -481,8 +481,9 @@ async function init() {
 
     planningData =
         await loadPlanning();
-console.log(planningData);
-    populateFilters(allData);
+     console.log(planningData);
+   
+   populateFilters(allData);
 
     registerEvents();
 
