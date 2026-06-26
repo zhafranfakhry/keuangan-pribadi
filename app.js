@@ -481,9 +481,14 @@ async function init() {
 
     planningData =
         await loadPlanning();
-     console.log(planningData);
-   
-   populateFilters(allData);
+
+    console.log("TRANSAKSI");
+    console.table(allData);
+
+    console.log("PLANNING");
+    console.table(planningData);
+
+    populateFilters(allData);
 
     registerEvents();
 
