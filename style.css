@@ -25,3 +25,89 @@ select{padding:12px;border-radius:10px;border:1px solid var(--border)}
 .transaction-top{display:flex;justify-content:space-between}
 #category-summary div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
 footer{text-align:center;color:#64748b;padding:20px}
+
+.planning-card{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+.planning-card strong{
+
+    display:block;
+
+    color:#777;
+
+    font-size:13px;
+
+}
+
+.planning-card span{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+.planning-item{
+
+    margin-bottom:20px;
+
+}
+
+.planning-head{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:6px;
+
+}
+
+.progress{
+
+    width:100%;
+
+    height:10px;
+
+    background:#eee;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+.progress-bar{
+
+    height:100%;
+
+    transition:.3s;
+
+}
+
+.progress-bar.green{
+
+    background:#22c55e;
+
+}
+
+.progress-bar.orange{
+
+    background:#f59e0b;
+
+}
+
+.progress-bar.red{
+
+    background:#ef4444;
+
+}
