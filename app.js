@@ -2,15 +2,22 @@
    CONFIG
 ================================================== */
 
-const API_URL =
-    "https://opensheet.elk.sh/19-mq1MdlveqoRNVWeYz5tYISOuW7sRWqxuaX-KdeyeU/transaksi";
+const BASE_URL =
+    "https://opensheet.elk.sh/19-mq1MdlveqoRNVWeYz5tYISOuW7sRWqxuaX-KdeyeU";
 
+const API_URL =
+    `${BASE_URL}/transaksi`;
+
+const PLANNING_URL =
+    `${BASE_URL}/planning`;
 
 /* ==================================================
    GLOBAL
 ================================================== */
 
 let allData = [];
+
+let planningData = [];
 
 let chart = null;
 
@@ -41,6 +48,14 @@ async function loadData() {
 
     const response =
         await fetch(API_URL);
+
+    return await response.json();
+
+}
+async function loadPlanning() {
+
+    const response =
+        await fetch(PLANNING_URL);
 
     return await response.json();
 
@@ -464,6 +479,9 @@ async function init() {
     allData =
         await loadData();
 
+    planningData =
+        await loadPlanning();
+console.log(planningData);
     populateFilters(allData);
 
     registerEvents();
