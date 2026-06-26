@@ -218,6 +218,58 @@ function renderCategorySummary(data) {
 
 }
 
+/* ==================================================
+   PLANNING
+================================================== */
+
+function calculatePlanning(transactions) {
+
+    const month =
+        document.getElementById("monthFilter").value;
+
+    const result = [];
+
+    planningData
+        .filter(item => item.Bulan === month)
+        .forEach(plan => {
+
+            const terpakai =
+                transactions
+                    .filter(item =>
+                        item.jenis === "keluar" &&
+                        item.kategori === plan.Kategori
+                    )
+                    .reduce(
+                        (sum, item) =>
+                            sum + Number(item.nominal),
+                        0
+                    );
+
+            const budget =
+                Number(plan.Budget);
+
+            result.push({
+
+                kategori: plan.Kategori,
+
+                budget,
+
+                terpakai,
+
+                sisa: budget - terpakai,
+
+                progress:
+                    budget > 0
+                        ? (terpakai / budget) * 100
+                        : 0
+
+            });
+
+        });
+
+    return result;
+
+}
 
 /* ==================================================
    CHART
@@ -410,6 +462,11 @@ function applyFilters() {
 
     renderChart(filtered);
 
+   const planning =
+    calculatePlanning(filtered);
+
+console.table(planning);
+
     renderLastSync(filtered);
 
 }
@@ -481,12 +538,6 @@ async function init() {
 
     planningData =
         await loadPlanning();
-
-    console.log("TRANSAKSI");
-    console.table(allData);
-
-    console.log("PLANNING");
-    console.table(planningData);
 
     populateFilters(allData);
 
