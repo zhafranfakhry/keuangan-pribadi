@@ -271,6 +271,113 @@ function calculatePlanning(transactions) {
 
 }
 
+function renderPlanning(planning) {
+
+    const summary =
+        document.getElementById(
+            "planning-summary"
+        );
+
+    const list =
+        document.getElementById(
+            "planning-list"
+        );
+
+    const totalBudget =
+        planning.reduce(
+            (sum, item) =>
+                sum + item.budget,
+            0
+        );
+
+    const totalTerpakai =
+        planning.reduce(
+            (sum, item) =>
+                sum + item.terpakai,
+            0
+        );
+
+    const totalSisa =
+        totalBudget - totalTerpakai;
+
+    summary.innerHTML = `
+
+        <div class="planning-card">
+
+            <strong>Total Budget</strong>
+            <span>${rupiah(totalBudget)}</span>
+
+            <strong>Terpakai</strong>
+            <span>${rupiah(totalTerpakai)}</span>
+
+            <strong>Sisa</strong>
+            <span>${rupiah(totalSisa)}</span>
+
+        </div>
+
+    `;
+
+    list.innerHTML = "";
+
+    planning.forEach(item => {
+
+        let color = "green";
+
+        if (item.progress >= 100) {
+
+            color = "red";
+
+        }
+        else if (item.progress >= 80) {
+
+            color = "orange";
+
+        }
+
+        list.innerHTML += `
+
+        <div class="planning-item">
+
+            <div class="planning-head">
+
+                <strong>${item.kategori}</strong>
+
+                <span>
+
+                    ${rupiah(item.terpakai)}
+                    /
+                    ${rupiah(item.budget)}
+
+                </span>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="progress-bar ${color}"
+                    style="width:${Math.min(item.progress,100)}%">
+                </div>
+
+            </div>
+
+            <small>
+
+                Sisa :
+                ${rupiah(item.sisa)}
+
+                (${item.progress.toFixed(1)}%)
+
+            </small>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
 /* ==================================================
    CHART
 ================================================== */
@@ -465,7 +572,7 @@ function applyFilters() {
    const planning =
     calculatePlanning(filtered);
 
-console.table(planning);
+    renderPlanning(planning);
 
     renderLastSync(filtered);
 
